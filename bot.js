@@ -41,7 +41,7 @@ bot.on("message", (message) => {
     switch (command) {
         case "rotomhelp" :
             message.channel.send({embed: {
-                color: "#FF8000",
+                color: 3447003,
                 author: {
                 name: 'Rotom',
                 icon_url: "https://cdn.discordapp.com/avatars/605111494408929280/3589dadf593215dca78b05ea2942dc96.png?size=256"
