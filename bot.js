@@ -31,7 +31,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     }
 });
 
-client.on("message", (message) => {
+bot.on("message", (message) => {
     // Messages need to be prefixed.
     if (!message.content.startsWith( config.prefix ) || message.author.bot) return;
 
