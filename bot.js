@@ -6,7 +6,7 @@ const config=require('./config.json');
 bot.login(config.token);
 
 bot.on('ready',  async () => {
-    console.log("PoGo Bot Ready for action.");
+    console.log("Bot Ready for action.");
 });
 
 bot.on( 'guildMemberAdd', member => {
@@ -22,7 +22,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeChannel = newMember.guild.channels.get(config.upgradeChannel);
 
     if( newMember.member.roles.has( config.verifiedRole ) ) {
-        console.log(`Yay, the author of the message has the role!`);
+        console.log(`Yay, member has the role!`);
     } else {
         console.log(`Nope, noppers, nadda.`);
     }
