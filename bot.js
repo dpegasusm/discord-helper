@@ -21,7 +21,7 @@ bot.on( 'guildMemberAdd', member => {
 bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeChannel = newMember.guild.channels.get(config.upgradeChannel);
 
-    if( newMember.member.roles.has( config.verifiedRole ) ) {
+    if( newMember.roles.has( config.verifiedRole ) ) {
         console.log(`Yay, member has the role!`);
     } else {
         console.log(`Nope, noppers, nadda.`);
