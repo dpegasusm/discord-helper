@@ -40,7 +40,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     .setDescription( newMember + " you've been verified, please type \"`upgrade`\" in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!" )
     .setFooter( "Boston PoGo Map", null);
    
-    if( newMember.roles.has( config.verifiedRole ) && ! oldMember.roles.has( config.verifiedRole ) ) {
+    if( newMember.roles.has( config.verifiedRole ) ) {
         upgradeChannel.send({embed});
         logChannel.send( `Yay, ${newMember} was verified.`);
     }
