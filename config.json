@@ -2,6 +2,7 @@
     "token":"",
     "welcomeChannel":"",
     "upgradeChannel":"",
+    "upgradeRulesChannel":"",
     "logChannel":"",
     "verifiedRole":"",
     "sqlConnection": {
