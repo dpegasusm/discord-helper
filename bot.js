@@ -20,21 +20,10 @@ bot.on( 'guildMemberAdd', member => {
 
 bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeChannel = newMember.guild.channels.get(config.upgradeChannel);
+    const logChannel = newMember.guild.channels.get(config.logChannel);
 
     if( newMember.roles.has( config.verifiedRole ) ) {
-        upgradeChannel.send(`Yay, member has the role!`);
-    } else {
-        upgradeChannel.send(`Nope, noppers, nadda.`);
+        upgradeChannel.send( `${newMember} you've been verified, please type "upgrade" in this channel to view the subscription options. If you have questions about the subscription process please check out #how-to-upgrade  Thank you so much for the support!`);
+        logChannel.send( `Yay, ${newMember} was verified.`);
     }
-    /*
-    const embed = new Discord.RichEmbed()
-        .setColor('#FE2E2E')
-        .setTimestamp()
-        .setAuthor('Role added!')
-        .addField(`Member:`, `${oldMember.user.tag} (${oldMember.id})`);
-        
-    upgradeChannel.send({
-        embed
-    });
-    */
 });
