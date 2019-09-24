@@ -1,0 +1,24 @@
+{
+    "name": "mwbdiscord",
+    "version": "1.0.0",
+    "description": "Boston PoGo Discord Bot",
+    "main": "bot.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/dpegasusm/oh-you-useless-reptile.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/dpegasusm/oh-you-useless-reptile/issues"
+    },
+    "homepage": "https://github.com/dpegasusm/oh-you-useless-reptile/#readme",
+    "dependencies": {
+      "discord.js": "^11.5.1",
+      "mysql": "^2.17.1"
+    }
+}
+  

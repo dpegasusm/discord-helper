@@ -1,0 +1,12 @@
+{
+    "token":"",
+    "welcomeChannel":"",
+    "upgradeChannel":"",
+    "logChannel":"",
+    "sqlConnection": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": ""
+    }
+}
