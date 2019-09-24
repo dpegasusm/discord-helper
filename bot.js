@@ -6,27 +6,35 @@ const config=require('./config.json');
 bot.login(config.token);
 
 bot.on('ready',  async () => {
+    console.log("PoGo Bot Ready for action.");
 });
 
-bot.on('guildMemberAdd', member => {
-    member.guild.channels.get(config.welcomeChannel).send("Welcome"); 
+bot.on( 'guildMemberAdd', member => {
+  // Send the message to a designated channel on a server:
+  const welcomeChannel = member.guild.channels.get( config.welcomeChannel );
+  // Do nothing if the channel wasn't found on this server
+  if (!welcomeChannel) return;
+  // Send the message, mentioning the member
+  welcomeChannel.send(`Welcome to the server, ${member}`);
 });
 
-exports.run = async (client, oldMember, newMember) => {
-    const messagechannel = msg.guild.channels.find('name', 'YOUR NAME OF YOUR CHANNEL');
-    if (oldMember.roles.size < newMember.roles.size) {
-        const embed = new Discord.RichEmbed()
-            .setColor('#FE2E2E')
-            .setTimestamp()
-            .setAuthor('Role added!')
-            .addField(`Member:`, `${oldMember.user.tag} (${oldMember.id})`);
-        for (const role of newMember.roles.map(x => x.id)) {
-            if (!oldMember.roles.has(role)) {
-                embed.addField(`Role:`, `${oldMember.guild.roles.get(role).name}`);
-            }
-        }
-        messagechannel.send({
-            embed
-        });
+bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
+    const upgradeChannel = newMember.guild.channels.get(config.upgradeChannel);
+
+    if( newMember.member.roles.has( config.verifiedRole ) ) {
+        console.log(`Yay, the author of the message has the role!`);
+    } else {
+        console.log(`Nope, noppers, nadda.`);
     }
-}
+    /*
+    const embed = new Discord.RichEmbed()
+        .setColor('#FE2E2E')
+        .setTimestamp()
+        .setAuthor('Role added!')
+        .addField(`Member:`, `${oldMember.user.tag} (${oldMember.id})`);
+        
+    upgradeChannel.send({
+        embed
+    });
+    */
+});

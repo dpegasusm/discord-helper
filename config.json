@@ -3,6 +3,7 @@
     "welcomeChannel":"",
     "upgradeChannel":"",
     "logChannel":"",
+    "verifiedRole":"",
     "sqlConnection": {
         "host": "",
         "user": "",
