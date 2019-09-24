@@ -1,6 +1,7 @@
 {
     "token":"",
     "welcomeChannel":"",
+    "readmeChannel":"",
     "upgradeChannel":"",
     "upgradeRulesChannel":"",
     "logChannel":"",

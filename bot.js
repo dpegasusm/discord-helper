@@ -12,10 +12,12 @@ bot.on('ready',  async () => {
 bot.on( 'guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
   const welcomeChannel = member.guild.channels.get( config.welcomeChannel );
+  const readmeChannel = member.guild.channels.get(config.readmeChannel);
+
   // Do nothing if the channel wasn't found on this server
   if (!welcomeChannel) return;
   // Send the message, mentioning the member
-  welcomeChannel.send(`Welcome to the server, ${member}`);
+  welcomeChannel.send(`Hi ${member}! Welcome to Boston PoGo! Please be sure to checkout ${readmeChannel} for the rules of the server and the verification process. Once you’re ready, please post your verification screenshots and acknowledgement here.`);
 });
 
 bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
