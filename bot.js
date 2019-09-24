@@ -24,7 +24,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeRules = newMember.guild.channels.get("605505155030319110");
 
     if( newMember.roles.has( config.verifiedRole ) ) {
-        upgradeChannel.send( `${newMember} you've been verified, please type "upgrade" in this channel to view the subscription options. If you have questions about the subscription process please check out <#${upgradeRules}> Thank you so much for the support!`);
+        upgradeChannel.send( newMember + " you've been verified, please type `upgrade` in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!");
         logChannel.send( `Yay, ${newMember} was verified.`);
     }
 });
