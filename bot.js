@@ -35,7 +35,7 @@ bot.on("message", (message) => {
     // Messages need to be prefixed.
     if (!message.content.startsWith( config.prefix ) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     switch (command) {
