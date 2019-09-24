@@ -17,7 +17,7 @@ bot.on( 'guildMemberAdd', member => {
   // Do nothing if the channel wasn't found on this server
   if (!welcomeChannel) return;
   // Send the message, mentioning the member
-  welcomeChannel.send(`Hi ${member}! Welcome to Boston PoGo! Please be sure to checkout ${readmeChannel} for the rules of the server and the verification process. Once you’re ready, please post your verification screenshots and acknowledgement here.`);
+  welcomeChannel.send( `Hi ${member}! Welcome to Boston PoGo! Please be sure to checkout ${readmeChannel} for the rules of the server and the verification process. Once you’re ready, please post your verification screenshots and acknowledgement here.` );
 });
 
 bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
@@ -26,7 +26,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeRules = newMember.guild.channels.get(config.upgradeRulesChannel);
 
     if( newMember.roles.has( config.verifiedRole ) && ! oldMember.roles.has( config.verifiedRole ) ) {
-        upgradeChannel.send( newMember + " you've been verified, please type \"`upgrade`\" in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!");
-        logChannel.send( `Yay, ${newMember} was verified.`);
+        upgradeChannel.send( newMember + " you've been verified, please type \"`upgrade`\" in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!" );
+        logChannel.send( `Yay, ${newMember} was verified.` );
     }
 });
