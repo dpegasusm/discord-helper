@@ -3,7 +3,7 @@ const bot=new Discord.Client();
 const mysql = require('mysql');
 const config=require('./config.json');
 
-bot.login(config.token);
+bot.login( config.token );
 
 bot.on('ready',  async () => {
     console.log("Bot Ready for action.");
@@ -22,9 +22,9 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     const upgradeChannel = newMember.guild.channels.get(config.upgradeChannel);
 
     if( newMember.roles.has( config.verifiedRole ) ) {
-        console.log(`Yay, member has the role!`);
+        upgradeChannel.send(`Yay, member has the role!`);
     } else {
-        console.log(`Nope, noppers, nadda.`);
+        upgradeChannel.send(`Nope, noppers, nadda.`);
     }
     /*
     const embed = new Discord.RichEmbed()
