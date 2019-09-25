@@ -5,8 +5,12 @@
     "readmeChannel":"",
     "upgradeChannel":"",
     "upgradeRulesChannel":"",
+    "rotomChannel":"",
+    "rotomPlusChannel":"",
     "logChannel":"",
     "verifiedRole":"",
+    "collectorRole":"",
+    "aceRole":"",
     "sqlConnection": {
         "host": "",
         "user": "",

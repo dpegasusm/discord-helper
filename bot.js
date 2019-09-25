@@ -27,6 +27,16 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
     if( newMember.roles.has( config.verifiedRole ) && ! oldMember.roles.has( config.verifiedRole ) ) {
         upgradeChannel.send( newMember + " you've been verified, please type \"`upgrade`\" in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!" );
-        logChannel.send( `Yay, ${newMember} was verified.` );
+        logChannel.send( `${newMember} was verified.` );
+    }
+
+    if( newMember.roles.has( config.collectorRole ) && ! oldMember.roles.has( config.collectorRole ) ) {
+        rotomChannel.send( newMember + " thanks for upgrading to collector, please type \"`!rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" or \"`!help`\" for command lists." );
+        logChannel.send( `${newMember} was upgraded to Collector.` );
+    }
+
+    if( newMember.roles.has( config.aceRole ) && ! oldMember.roles.has( config.aceRole ) ) {
+        rotomPlusChannel.send( newMember + " you've been verified, please type \"`upgrade`\" in this channel to view the subscription options. If you have questions about the subscription process please check out " + upgradeRules + " Thank you so much for the support!" );
+        logChannel.send( `${newMember} was upgraded to Ace Trainer.` );
     }
 });
