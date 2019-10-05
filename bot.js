@@ -1,6 +1,6 @@
 const Discord=require('discord.js');
 const bot=new Discord.Client();
-const mysql = require('mysql');
+// const mysql = require('mysql');
 const ontime = require('ontime');
 const config=require('./config.json');
                     
