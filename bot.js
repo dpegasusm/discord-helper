@@ -55,7 +55,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 async function outputDailyReminders( config ) {
 	return await new Promise( function( resolve ) {
 
-        let unverifiedMembers = client.guilds.get( config.guild ).members.filter(member => { 
+        let unverifiedMembers = bot.guilds.get( config.guild ).members.filter(member => { 
             return ! member.roles.find( "name", config.verifiedRole );
         }).map(member => {
             return member.user.username;
