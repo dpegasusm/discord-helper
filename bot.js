@@ -7,7 +7,7 @@ const config=require('./config.json');
 bot.login( config.token );
 
 bot.on('ready',  async () => {
-    console.log("Bot Ready for action.");
+    console.log( "Bot Ready for action." );
 });
 
 ontime({
