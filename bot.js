@@ -3,8 +3,6 @@ const bot=new Discord.Client();
 const mysql = require('mysql');
 const ontime = require('ontime');
 const config=require('./config.json');
-
-const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
                     
 bot.login( config.token );
 
@@ -15,7 +13,7 @@ bot.on('ready',  async () => {
 ontime({
 	cycle:[config.remindTime]
 }, async function(ot) {
-	await outputDailyReminders( config.welcomeChannel );
+	await outputDailyReminders( config );
 	return ot.done();
 });
 
@@ -54,15 +52,8 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     }
 });
 
-async function outputDailyReminders( channel ) {
+async function outputDailyReminders( config ) {
 	return await new Promise( function( resolve ) {
-        let reminders = [
-            'Hey {trainer}, are you even verified? I can do this all day. Verify and I\'ll stop nagging.',
-            'Hey {trainer}, you\'re missing out on new hundo spawns every hour, get verified today!',
-            'Hey {trainer}. you have 7 days to verify until I kick you out. Don\'t make me be a naughty bot.',
-            'Hey {trainer}, Looks like you\'re still not verified. Verification is awesome. you should do it right away.',
-            'Hey {trainer}, it\'s me again, your friendly bot, Patrat. I think you should verify.'            
-        ];		
 
         let unverifiedMembers = message.guild.members.filter(member => { 
             return ! member.roles.find( "name", config.verifiedRole );
@@ -70,11 +61,23 @@ async function outputDailyReminders( channel ) {
             return member.user.username;
         });
 
-        
-
-        var randomMessage = reminders[ Math.floor( Math.random()*reminders.length ) ];
-        await  bot.channels.get(channel).send( randomMessage );
+        for ( const name of unverifiedMembers ) {
+            randomMessage = getPatratReminder( name );
+            await  bot.channels.get( config.welcomeChannel ).send( randomMessage );
+        }
 
         return resolve(true);
 	});
+}
+
+function getPatratReminder( name ) {
+    let reminders = [
+        `Hey ${name}, are you even verified? I can do this all day. Verify and I'll stop nagging.`,
+        `Hey ${name}, you're missing out on new hundo spawns every hour, get verified today!`,
+        `Hey ${name}. you have 7 days to verify until I kick you out. Don't make me be a naughty bot.`,
+        `Hey ${name}, looks like you're still not verified. Verification is awesome. you should do it right away.`,
+        `Hey ${name}, t's me again, your friendly bot, Patrat. I think you should verify.`            
+    ];	
+    
+    return reminders[ Math.floor( Math.random()*reminders.length ) ];
 }
