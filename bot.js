@@ -55,7 +55,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 async function outputDailyReminders( config ) {
 	return await new Promise( function( resolve ) {
 
-        let unverifiedMembers = message.guild.members.filter(member => { 
+        let unverifiedMembers = bot.members.filter(member => { 
             return ! member.roles.find( "name", config.verifiedRole );
         }).map(member => {
             return member.user.username;
@@ -76,7 +76,7 @@ function getReminder( name ) {
         `Hey ${name}, you're missing out on new hundo spawns every hour, get verified today!`,
         `Hey ${name}. you have 7 days to verify until I kick you out. Don't make me be a naughty bot.`,
         `Hey ${name}, looks like you're still not verified. Verification is awesome. you should do it right away.`,
-        `Hey ${name}, t's me again, your friendly bot, Patrat. I think you should verify.`            
+        `Hey ${name}, it's me again, your friendly bot, Patrat. I think you should verify.`            
     ];	
     
     return reminders[ Math.floor( Math.random()*reminders.length ) ];
