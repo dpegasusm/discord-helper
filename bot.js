@@ -56,13 +56,17 @@ async function outputDailyReminders( config ) {
 	return await new Promise( function( resolve ) {
 
         let unverifiedMembers = bot.guilds.get( config.guild ).members.filter(member => { 
-            return ! member.roles.find( "name", config.verifiedRole );
+            if ( member.roles.has( config.verifiedRole ) ) {
+                return false;
+            }
+
+            return true;
         }).map(member => {
-            return member.user.username;
+            return member;
         });
 
-        for ( const name of unverifiedMembers ) {
-            randomMessage = getReminder( name );
+        for ( const member of unverifiedMembers ) {
+            randomMessage = getReminder( member );
             bot.channels.get( config.welcomeChannel ).send( randomMessage );
         }
 
@@ -70,13 +74,13 @@ async function outputDailyReminders( config ) {
 	});
 }
 
-function getReminder( name ) {
+function getReminder( member ) {
     let reminders = [
-        `Hey ${name}, are you even verified? I can do this all day. Verify and I'll stop nagging.`,
-        `Hey ${name}, you're missing out on new hundo spawns every hour, get verified today!`,
-        `Hey ${name}. you have 7 days to verify until I kick you out. Don't make me be a naughty bot.`,
-        `Hey ${name}, looks like you're still not verified. Verification is awesome. you should do it right away.`,
-        `Hey ${name}, it's me again, your friendly bot, Patrat. I think you should verify.`            
+        `Hey ${member}, are you even verified? I can do this all day. Verify and I'll stop nagging.`,
+        `Hey ${member}, you're missing out on new hundo spawns every hour, get verified today!`,
+        `Hey ${member}. you have 7 days to verify until I kick you out. Don't make me be a naughty bot.`,
+        `Hey ${member}, looks like you're still not verified. Verification is awesome. you should do it right away.`,
+        `Hey ${member}, it's me again, your friendly bot, Patrat. I think you should verify.`            
     ];	
     
     return reminders[ Math.floor( Math.random()*reminders.length ) ];
