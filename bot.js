@@ -62,15 +62,15 @@ async function outputDailyReminders( config ) {
         });
 
         for ( const name of unverifiedMembers ) {
-            randomMessage = getPatratReminder( name );
-            await  bot.channels.get( config.welcomeChannel ).send( randomMessage );
+            randomMessage = getReminder( name );
+            bot.channels.get( config.welcomeChannel ).send( randomMessage );
         }
 
         return resolve(true);
 	});
 }
 
-function getPatratReminder( name ) {
+function getReminder( name ) {
     let reminders = [
         `Hey ${name}, are you even verified? I can do this all day. Verify and I'll stop nagging.`,
         `Hey ${name}, you're missing out on new hundo spawns every hour, get verified today!`,
