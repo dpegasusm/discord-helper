@@ -1,5 +1,6 @@
 {
     "token":"",
+    "guild":"",
     "prefix":"?",
     "welcomeChannel":"",
     "readmeChannel":"",
