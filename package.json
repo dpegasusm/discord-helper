@@ -19,7 +19,8 @@
     "homepage": "https://github.com/dpegasusm/discord-helper/#readme",
     "dependencies": {
       "discord.js": "^11.5.1",
-      "mysql": "^2.17.1"
+      "mysql": "^2.17.1",
+      "ontime": "0.0.6"
     }
 }
   
