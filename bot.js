@@ -42,12 +42,12 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     }
 
     if( newMember.roles.has( config.collectorRole ) && ! oldMember.roles.has( config.collectorRole ) ) {
-        rotomChannel.send( newMember + " thanks for upgrading to collector, please type \"`!rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" or \"`!help`\" in the support channel for command lists." );
+        rotomChannel.send( newMember + " thanks for upgrading to collector, please type \"`!rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" in the support channel or DM Rotom \"`!help`\" for command lists." );
         logChannel.send( `${newMember} was upgraded to Collector.` );
     }
 
     if( newMember.roles.has( config.aceRole ) && ! oldMember.roles.has( config.aceRole ) ) {
-        rotomPlusChannel.send( newMember + " thanks for upgrading to ace trainer, please type \"`$rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" or \"`!help`\" in the support channel for command lists." );
+        rotomPlusChannel.send( newMember + " thanks for upgrading to ace trainer, please type \"`$rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" in the support channel or DM Rotom \"`!help`\" for command lists." );
         logChannel.send( `${newMember} was upgraded to Ace Trainer.` );
     }
 });
