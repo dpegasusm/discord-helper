@@ -47,7 +47,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
     }
 
     if( newMember.roles.has( config.aceRole ) && ! oldMember.roles.has( config.aceRole ) ) {
-        rotomPlusChannel.send( newMember + " thanks for upgrading to ace trainer, please type \"`$rotom`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" in the support channel or DM Rotom \"`!help`\" for command lists." );
+        rotomPlusChannel.send( newMember + " thanks for upgrading to ace trainer, please type \"`$rotom2`\" in this channel to set up personalized direct notifications about spawns, raids and quests in your area. If you have questions please check out out " + rotomSupport + " or type \"`?rotomhelp`\" in the support channel or DM Rotom++ \"`$help`\" for command lists." );
         logChannel.send( `${newMember} was upgraded to Ace Trainer.` );
     }
 });
