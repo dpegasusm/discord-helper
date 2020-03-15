@@ -240,7 +240,6 @@ bot.on("message", (message) => {
     const command = args.shift().toLowerCase();
 
     console.log( message.author );
-    console.log( message.member );
 
     switch (command) {
         case "rotomhelp" :
