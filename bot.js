@@ -239,8 +239,6 @@ bot.on("message", (message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    console.log( message.member );
-
     switch (command) {
         case "rotomhelp" :
             message.channel.send({embed: {
@@ -295,7 +293,7 @@ bot.on("message", (message) => {
             break;
         
         case "freetrial" :
-            memberID.addRole(config.trialRole);
+            message.member.addRole(config.trialRole);
 
             break;
     }
