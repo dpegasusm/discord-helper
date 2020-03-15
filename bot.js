@@ -239,7 +239,7 @@ bot.on("message", (message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    console.log( message.sender );
+    console.log( message.member );
 
     switch (command) {
         case "rotomhelp" :
