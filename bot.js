@@ -239,6 +239,9 @@ bot.on("message", (message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
+    console.log( message.author );
+    console.log( message.member );
+
     switch (command) {
         case "rotomhelp" :
             message.channel.send({embed: {
