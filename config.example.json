@@ -16,6 +16,9 @@
     "verifiedRole":"",
     "collectorRole":"",
     "aceRole":"",
+    "trialRole":"",
+    "trialRemoveTime":"",
+    "trialDays":"",
     "sqlConnection": {
         "host": "",
         "user": "",
