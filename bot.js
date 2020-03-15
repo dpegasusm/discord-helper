@@ -293,7 +293,7 @@ bot.on("message", (message) => {
             break;
         
         case "freetrial" :
-            message.member.addRole(config.trialRole);
+            message.author.addRole(config.trialRole);
 
             break;
     }
