@@ -12,11 +12,11 @@ bot.on('ready',  async () => {
 
 /** 
 CREATE TABLE `free_trial` (
-  `discord_id` smallint(6) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  PRIMARY KEY (discord_id)
-);
+  `discord_id` VARCHAR(50) NOT NULL,
+  `start_date` DATETIME NULL,
+  `end_date` DATETIME NULL,
+  PRIMARY KEY (`discord_id`),
+  UNIQUE INDEX `discord_id_UNIQUE` (`discord_id` ASC));
 */
 
 async function GetFreeTrial(database, discord_id)
@@ -81,7 +81,7 @@ async function SetFreeTrial(database, discord_id)
     
             }
     
-            let sqlQuery = "INSERT INTO free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL 1 DAY );";
+            let sqlQuery = "INSERT INTO free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
 
 			connection.query(sqlQuery, async function(error, results) {
 				if(error) { throw error; }
