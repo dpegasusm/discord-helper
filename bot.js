@@ -20,7 +20,7 @@ CREATE TABLE `free_trial` (
 */
 
 async function GetFreeTrial(database, discord_id) {
-    console.log( discord_id );
+    console.log( discord_id.id );
     return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
