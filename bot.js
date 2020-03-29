@@ -36,7 +36,6 @@ async function GetFreeTrial(database, discord_id) {
     
             let date = new Date();
             let sqlQuery = "SELECT * FROM "+database.database+".free_trial WHERE discord_id = '"+discord_id+"';";
-            console.log( sqlQuery );
 
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
@@ -44,6 +43,7 @@ async function GetFreeTrial(database, discord_id) {
                 for(let i = 0; i < results.length; i++)
                 {
                     let currentUser = results[i];
+                    console.log( currentUser );
 
                     let dateTimeParts = currentUser.end_date.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
                     dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
