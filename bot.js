@@ -39,6 +39,10 @@ async function GetFreeTrial(database, discord_id) {
 
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
+
+                if ( 0 == results.length ) {
+                    return resolve(true);
+                }
                         
                 for(let i = 0; i < results.length; i++)
                 {
