@@ -19,6 +19,9 @@ CREATE TABLE `free_trial` (
   UNIQUE INDEX `discord_id_UNIQUE` (`discord_id` ASC));
 */
 
+// get role by ID
+let trialRole = message.guild.roles.get(config.trialRole);
+
 async function GetFreeTrial(database, discord_id)
 {
     return await new Promise(function(resolve) {
@@ -142,14 +145,14 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
         if ( trialEligible === true ) {
             // remove trial
-            newMember.addRole(config.trialRole);
+            newMember.addRole(trialRole).catch(console.error);
             SetFreeTrial();
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( 'Trial added' );
         } else {
             // remove trial
-            newMember.removeRole(config.trialRole);
+            newMember.removeRole(trialRole).catch(console.error);
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( 'Trial Removed' );
@@ -186,10 +189,10 @@ async function RemoveFreeTrials( config ) {
 
             if ( trialEligible === false ) {
                 // remove trial
-                member.removeRole(config.trialRole);
+                member.removeRole(trialRole).catch(console.error);
 
                 // send removal notice
-                bot.channels.get( config.welcomeChannel ).send( randomMessage );
+                bot.channels.get( config.welcomeChannel ).send( newMember + "Unfortunately it looks as tho your trial perios is over. You can subscribe in the " + upgradeChannel + " if you wish to continue." );
             }
         }
 
@@ -293,14 +296,12 @@ bot.on("message", (message) => {
             break;
         
         case "freetrial" :
-            // get role by ID
-            let trialRole = message.guild.roles.get(config.trialRole);
-
             if( message.member.roles.has(trialRole.id) ) {
                 return message.reply( "Looks like you aleady have a free trial ongoing." );
             } else {
                 // Add the role!
                 message.member.addRole(trialRole).catch(console.error);
+                SetFreeTrial();
             }
 
             break;
