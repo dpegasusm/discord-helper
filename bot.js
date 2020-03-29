@@ -35,7 +35,7 @@ async function GetFreeTrial(database, discord_id) {
             }
     
             let date = new Date();
-            let sqlQuery = "SELECT * FROM free_trial WHERE discord_id = '"+discord_id+"';";
+            let sqlQuery = "SELECT * FROM "+database.database+".free_trial WHERE discord_id = '"+discord_id+"';";
             console.log( sqlQuery );
 
             connection.query( sqlQuery, async function(error, results) {
@@ -81,7 +81,7 @@ async function SetFreeTrial(database, discord_id)
     
             }
     
-            let sqlQuery = "INSERT INTO free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
+            let sqlQuery = "INSERT INTO "+database.database+"free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
 
 			connection.query(sqlQuery, async function(error, results) {
 				if(error) { throw error; }
@@ -143,7 +143,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
         if ( trialEligible === true ) {
             // remove trial
             newMember.addRole( config.trialRole ).catch(console.error);
-            SetFreeTrial();
+            SetFreeTrial( config.sqlConnection, newMember.id );
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( 'Trial added' );
@@ -306,7 +306,7 @@ bot.on("message", (message) => {
                 if ( trialEligible === true ) {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
-                    SetFreeTrial();
+                    SetFreeTrial( config.sqlConnection, message.member.id );
         
                     // send removal notice
                     return message.reply( "A free trial has been added to your account." );
