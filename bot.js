@@ -20,7 +20,7 @@ CREATE TABLE `free_trial` (
 */
 
 // get role by ID
-let trialRole = message.guild.roles.get(config.trialRole);
+let trialRole = bot.guilds.get( config.guild ).roles.get( config.trialRole );
 
 async function GetFreeTrial(database, discord_id)
 {
