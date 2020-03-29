@@ -301,7 +301,7 @@ bot.on("message", (message) => {
             } else {
     
                 // add free trial role if database says its not already there
-                let trialEligible = GetFreeTrial( config.sqlConnection, newMember );
+                let trialEligible = GetFreeTrial( config.sqlConnection, message.member );
         
                 if ( trialEligible === true ) {
                     // Add the role!
