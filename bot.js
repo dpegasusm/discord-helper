@@ -19,8 +19,8 @@ CREATE TABLE `free_trial` (
   UNIQUE INDEX `discord_id_UNIQUE` (`discord_id` ASC));
 */
 
-async function GetFreeTrial(database, discord_id)
-{
+async function GetFreeTrial(database, discord_id) {
+    console.log( discord_id );
     return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
