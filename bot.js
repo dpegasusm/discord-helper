@@ -139,7 +139,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
         addTrial = true;
     }
 
-    if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
+    if( ( newMember.roles.has( trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
         trialEligible = GetFreeTrial( config.sqlConnection, newMember );
 
@@ -299,9 +299,21 @@ bot.on("message", (message) => {
             if( message.member.roles.has(trialRole.id) ) {
                 return message.reply( "Looks like you aleady have a free trial ongoing." );
             } else {
-                // Add the role!
-                message.member.addRole(trialRole).catch(console.error);
-                SetFreeTrial();
+
+                // add free trial role if database says its not already there
+                let trialEligible = GetFreeTrial( config.sqlConnection, newMember );
+        
+                if ( trialEligible === true ) {
+                    // Add the role!
+                    message.member.addRole(trialRole).catch(console.error);
+                    SetFreeTrial();
+        
+                    // send removal notice
+                    return message.reply( "A free trial has been added to your account." );
+                } else {        
+                    // send removal notice
+                    return message.reply( "Looks like you already had a trial. This command cannot be used to add another one." );
+                }
             }
 
             break;
