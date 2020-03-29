@@ -297,6 +297,16 @@ bot.on("message", (message) => {
         case "freetrial" :
             message.author.addRole(config.trialRole);
 
+            // get role by ID
+            let trialRole = message.guild.roles.get(config.trialRole);
+
+            if( message.member.roles.has(trialRole.id) ) {
+                return message.reply("Looks like you aleady have a free trial ongoing.");
+            } else {
+                // Add the role!
+                message.member.addRole(role).catch(console.error);
+            }
+
             break;
     }
 });
