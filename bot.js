@@ -20,7 +20,6 @@ CREATE TABLE `free_trial` (
 */
 
 async function GetFreeTrial(database, discord_id) {
-    console.log( discord_id.id );
     return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
@@ -37,6 +36,7 @@ async function GetFreeTrial(database, discord_id) {
     
             let date = new Date();
             let sqlQuery = "SELECT * FROM free_trial WHERE discord_id = '"+discord_id+"';";
+            console.log( sqlQuery );
 
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
@@ -138,7 +138,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
     if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
-        trialEligible = GetFreeTrial( config.sqlConnection, newMember );
+        trialEligible = GetFreeTrial( config.sqlConnection, newMember.id );
 
         if ( trialEligible === true ) {
             // remove trial
@@ -182,7 +182,7 @@ async function RemoveFreeTrials( config ) {
         });
 
         for ( const member of trialMembers ) {
-            trialEligible = GetFreeTrial( config.sqlConnection, member );
+            trialEligible = GetFreeTrial( config.sqlConnection, member.id );
 
             if ( trialEligible === false ) {
                 // remove trial
@@ -301,7 +301,7 @@ bot.on("message", (message) => {
             } else {
     
                 // add free trial role if database says its not already there
-                let trialEligible = GetFreeTrial( config.sqlConnection, message.member );
+                let trialEligible = GetFreeTrial( config.sqlConnection, message.member.id );
         
                 if ( trialEligible === true ) {
                     // Add the role!
