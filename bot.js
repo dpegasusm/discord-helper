@@ -24,14 +24,10 @@ async function GetFreeTrial(database, discord_id) {
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
-            if(error)
-            {
-                console.log("Error connecting to SQL: "+error.stack);
-                    connection.end(function(err) {
-                        
-                    });
+            if(error) {
+                console.log( "Error connecting to SQL: " + error.stack );
+                connection.end();
                 return resolve(false);
-    
             }
     
             let date = new Date();
@@ -145,12 +141,12 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
     if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
-        trialEligible = GetFreeTrial( config.sqlConnection, newMember.id );
+        let trialEligible = await GetFreeTrial( config.sqlConnection, newMember.id );
 
         if ( trialEligible === true ) {
             // remove trial
             newMember.addRole( config.trialRole ).catch(console.error);
-            SetFreeTrial( config.sqlConnection, newMember.id );
+            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
@@ -189,7 +185,7 @@ async function RemoveFreeTrials( config ) {
         });
 
         for ( const member of trialMembers ) {
-            trialEligible = GetFreeTrial( config.sqlConnection, member.id );
+            let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
 
             if ( trialEligible === false ) {
                 // remove trial
@@ -308,14 +304,14 @@ bot.on("message", (message) => {
             } else {
     
                 // add free trial role if database says its not already there
-                let trialEligible = GetFreeTrial( config.sqlConnection, message.member.id );
+                let trialEligible = await GetFreeTrial( config.sqlConnection, message.member.id );
 
                 console.log( trialEligible );
         
                 if ( true == trialEligible ) {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
-                    SetFreeTrial( config.sqlConnection, message.member.id );
+                    let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
         
                     // send removal notice
                     return message.reply( "A free trial has been added to your account." );
