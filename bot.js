@@ -19,7 +19,7 @@ CREATE TABLE `free_trial` (
   UNIQUE INDEX `discord_id_UNIQUE` (`discord_id` ASC));
 */
 
-async function GetFreeTrial(database, discord_id) {
+function GetFreeTrial(database, discord_id) {
     return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
@@ -68,7 +68,7 @@ async function GetFreeTrial(database, discord_id) {
     });
 }
 
-async function SetFreeTrial(database, discord_id)
+function SetFreeTrial(database, discord_id)
 {
     return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
@@ -137,12 +137,12 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
     if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
-        let trialEligible = await GetFreeTrial( config.sqlConnection, newMember.id );
+        let trialEligible = GetFreeTrial( config.sqlConnection, newMember.id );
 
         if ( trialEligible === true ) {
             // remove trial
             newMember.addRole( config.trialRole ).catch(console.error);
-            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
+            let freeTrialSet = SetFreeTrial( config.sqlConnection, newMember.id );
             if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
 
             // send removal notice
@@ -301,14 +301,14 @@ bot.on("message", (message) => {
             } else {
     
                 // add free trial role if database says its not already there
-                let trialEligible = await GetFreeTrial( config.sqlConnection, message.member.id );
+                let trialEligible = GetFreeTrial( config.sqlConnection, message.member.id );
 
                 console.log( trialEligible );
         
                 if ( true == trialEligible ) {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
-                    let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
+                    let freeTrialSet = SetFreeTrial( config.sqlConnection, message.member.id );
                     if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
         
                     // send removal notice
