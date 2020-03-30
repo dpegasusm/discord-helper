@@ -20,7 +20,7 @@ CREATE TABLE `free_trial` (
 */
 
 function GetFreeTrial(database, discord_id) {
-    return await new Promise(function(resolve) {
+    return new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
@@ -70,7 +70,7 @@ function GetFreeTrial(database, discord_id) {
 
 function SetFreeTrial(database, discord_id)
 {
-    return await new Promise(function(resolve) {
+    return new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
