@@ -74,14 +74,10 @@ async function SetFreeTrial(database, discord_id)
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
-            if(error)
-            {
+            if(error) {
                 console.log("Error connecting to SQL: "+error.stack);
-                    connection.end(function(err) {
-                        
-                    });
+                connection.end();
                 return resolve(false);
-    
             }
     
             let sqlQuery = "INSERT INTO "+database.database+"free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
@@ -147,6 +143,7 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
             // remove trial
             newMember.addRole( config.trialRole ).catch(console.error);
             let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
+            if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
@@ -312,6 +309,7 @@ bot.on("message", (message) => {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
                     let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
+                    if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
         
                     // send removal notice
                     return message.reply( "A free trial has been added to your account." );
