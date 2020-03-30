@@ -40,6 +40,9 @@ async function GetFreeTrial(database, discord_id) {
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
 
+                console.log( results );
+                console.log( error );
+
                 if ( 0 == results.length ) {
                     return resolve(true);
                 }
@@ -150,13 +153,13 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
             SetFreeTrial( config.sqlConnection, newMember.id );
 
             // send removal notice
-            bot.channels.get( config.welcomeChannel ).send( 'Trial added' );
+            bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
         } else {
             // remove trial
             newMember.removeRole( config.trialRole ).catch(console.error);
 
             // send removal notice
-            bot.channels.get( config.welcomeChannel ).send( 'Trial Removed' );
+            bot.channels.get( config.welcomeChannel ).send( "Looks like you already had a trial. This command cannot be used to add another one." );
         }
     }
 
