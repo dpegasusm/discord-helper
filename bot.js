@@ -32,8 +32,6 @@ async function GetFreeTrial(database, discord_id) {
     
             let sqlQuery = "SELECT * FROM "+database.database+".free_trial WHERE discord_id = '"+discord_id+"' AND end_date < NOW();";
 
-            console.log( sqlQuery );
-
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { 
                     console.log( "Error connecting to SQL: " + error.stack );
@@ -41,7 +39,7 @@ async function GetFreeTrial(database, discord_id) {
                     return resolve(false);
                 }
 
-                console.log( results );
+                console.log( results.length );
 
                 if ( 0 == results.length ) {
                     return resolve(true);
