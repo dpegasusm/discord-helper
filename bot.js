@@ -30,8 +30,7 @@ async function GetFreeTrial(database, discord_id) {
                 return resolve(false);
             }
     
-            let date = new Date();
-            let sqlQuery = "SELECT * FROM "+database.database+".free_trial WHERE discord_id = '"+discord_id+"';";
+            let sqlQuery = "SELECT * FROM "+database.database+".free_trial WHERE discord_id = '"+discord_id+"' AND end_date < NOW();";
 
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
@@ -39,28 +38,13 @@ async function GetFreeTrial(database, discord_id) {
                 if ( 0 == results.length ) {
                     return resolve(true);
                 }
-                        
-                for(let i = 0; i < results.length; i++)
-                {
-                    let currentUser = results[i];
-                    console.log( currentUser );
 
-                    let dateTimeParts = currentUser.end_date.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
-                    dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
-
-                    let dateObject = new Date(...dateTimeParts);
-                            
-                    if( dateObject.getTime() <= date.getTime() )
-                    {		
-                        return resolve(false);
-                    }
-                }
-                
+                return resolve(false);                
             });
     
             connection.end();
     
-            return resolve(true);
+            return resolve(false);
         });
     });
 }
@@ -83,9 +67,9 @@ async function SetFreeTrial(database, discord_id)
 
             connection.query(sqlQuery, async function(error, results) {
 				if(error) { 
-                    console.log("Error connecting to SQL: "+error.stack);
+                    console.log("Error adding user to DB");
                     connection.end();
-                    throw error; 
+                    return resolve(false);
                 }
 				return resolve(true);
 			});
@@ -317,7 +301,7 @@ bot.on("message", async (message) => {
                         // send removal notice
                         return message.reply( "A free trial has been added to your account." );
                     } else {
-                        return message.reply( "Something went wront." ); 
+                        return message.reply( "Looks like you already had a free trial and cannot add another." ); 
                     }
         
                 } else {        
