@@ -19,8 +19,8 @@ CREATE TABLE `free_trial` (
   UNIQUE INDEX `discord_id_UNIQUE` (`discord_id` ASC));
 */
 
-function GetFreeTrial(database, discord_id) {
-    return new Promise(function(resolve) {
+async function GetFreeTrial(database, discord_id) {
+    return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
@@ -68,9 +68,9 @@ function GetFreeTrial(database, discord_id) {
     });
 }
 
-function SetFreeTrial(database, discord_id)
+async function SetFreeTrial(database, discord_id)
 {
-    return new Promise(function(resolve) {
+    return await new Promise(function(resolve) {
         let connection = mysql.createConnection(database);
     
         connection.connect(async function(error) {
@@ -120,7 +120,7 @@ bot.on( 'guildMemberAdd', member => {
   welcomeChannel.send( `Hi ${member}! Welcome to Boston PoGo! Please be sure to checkout ${readmeChannel} for the rules of the server and the verification process. Once you’re ready, please post your verification screenshots and acknowledgement here.` );
 });
 
-bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
+bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
     const upgradeChannel = bot.channels.get(config.upgradeChannel);
     const logChannel = bot.channels.get(config.logChannel);
     const upgradeRules = bot.channels.get(config.upgradeRulesChannel);
@@ -137,12 +137,12 @@ bot.on( 'guildMemberUpdate', ( oldMember, newMember ) => {
 
     if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
-        let trialEligible = GetFreeTrial( config.sqlConnection, newMember.id );
+        let trialEligible = await GetFreeTrial( config.sqlConnection, newMember.id );
 
         if ( trialEligible === true ) {
             // remove trial
             newMember.addRole( config.trialRole ).catch(console.error);
-            let freeTrialSet = SetFreeTrial( config.sqlConnection, newMember.id );
+            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
             if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
 
             // send removal notice
@@ -182,7 +182,7 @@ async function RemoveFreeTrials( config ) {
         });
 
         for ( const member of trialMembers ) {
-            let trialEligible = GetFreeTrial( config.sqlConnection, member.id );
+            let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
 
             if ( trialEligible === false ) {
                 // remove trial
@@ -232,7 +232,7 @@ function getReminder( member ) {
 }
 
 // allow a message responder
-bot.on("message", (message) => {
+bot.on("message", async (message) => {
     // Messages need to be prefixed.
     if (!message.content.startsWith( config.prefix ) || message.author.bot) return;
 
@@ -301,14 +301,14 @@ bot.on("message", (message) => {
             } else {
     
                 // add free trial role if database says its not already there
-                let trialEligible = GetFreeTrial( config.sqlConnection, message.member.id );
+                let trialEligible = await GetFreeTrial( config.sqlConnection, message.member.id );
 
                 console.log( trialEligible );
         
                 if ( true == trialEligible ) {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
-                    let freeTrialSet = SetFreeTrial( config.sqlConnection, message.member.id );
+                    let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
                     if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
         
                     // send removal notice
