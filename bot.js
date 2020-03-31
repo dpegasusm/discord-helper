@@ -41,16 +41,15 @@ async function GetFreeTrial(database, discord_id) {
 
                 console.log( results.length );
 
-                if ( 0 == results.length ) {
+                if ( 0 === results.length ) {
                     return resolve(true);
+                } else {
+                    return resolve(false);
                 }
 
-                return resolve(false);                
             });
     
             connection.end();
-    
-            return resolve(false);
         });
     });
 }
