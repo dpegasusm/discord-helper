@@ -68,15 +68,12 @@ async function SetFreeTrial(database, discord_id)
     
             let sqlQuery = "INSERT INTO "+database.database+".free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
 
-            console.log( sqlQuery );
-
             connection.query(sqlQuery, async function(error, results) {
 				if(error) { 
                     console.log("Error adding user to DB");
-                    connection.end();
                     return resolve(false);
                 }
-                
+
 				return resolve(true);
 			});
     
