@@ -134,14 +134,14 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
                 newMember.addRole( config.trialRole ).catch(console.error);
 
                 // send removal notice
-                bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
+                bot.channels.get( config.upgradeChannel ).send( "A free trial has been added to your account." );
             } else {
                 // Add the role!
                 if( newMember.roles.has(config.trialRole) ) {
                     newMember.removeRole(config.trialRole).catch(console.error);
                 }
 
-                bot.channels.get( config.welcomeChannel ).send( "Looks like you already had a free trial and cannot add another." ); 
+                bot.channels.get( config.upgradeChannel ).send( "Looks like you already had a free trial and cannot add another." ); 
             }
         } else {
             // remove trial
@@ -150,7 +150,7 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
             }
 
             // send removal notice
-            bot.channels.get( config.welcomeChannel ).send( "Looks like you already had a trial. This command cannot be used to add another one." );
+            bot.channels.get( config.upgradeChannel ).send( "Looks like you already had a trial. This command cannot be used to add another one." );
         }
     }
 
