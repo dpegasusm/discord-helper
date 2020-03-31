@@ -76,12 +76,11 @@ async function SetFreeTrial(database, discord_id)
                     connection.end();
                     return resolve(false);
                 }
+                
 				return resolve(true);
 			});
     
             connection.end();
-    
-            return resolve(false);
         });
     });
 }
