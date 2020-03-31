@@ -36,9 +36,6 @@ async function GetFreeTrial(database, discord_id) {
             connection.query( sqlQuery, async function(error, results) {
                 if(error) { throw error; }
 
-                console.log( results );
-                console.log( error );
-
                 if ( 0 == results.length ) {
                     return resolve(true);
                 }
@@ -82,8 +79,14 @@ async function SetFreeTrial(database, discord_id)
     
             let sqlQuery = "INSERT INTO "+database.database+".free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
 
-			connection.query(sqlQuery, async function(error, results) {
-				if(error) { throw error; }
+            console.log( sqlQuery );
+
+            connection.query(sqlQuery, async function(error, results) {
+				if(error) { 
+                    console.log("Error connecting to SQL: "+error.stack);
+                    connection.end();
+                    throw error; 
+                }
 				return resolve(true);
 			});
     
@@ -302,13 +305,14 @@ bot.on("message", async (message) => {
     
                 // add free trial role if database says its not already there
                 let trialEligible = await GetFreeTrial( config.sqlConnection, message.member.id );
-
-                console.log( trialEligible );
         
                 if ( true == trialEligible ) {
                     // Add the role!
                     message.member.addRole(trialRole).catch(console.error);
                     let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
+
+                    console.log( freeTrialSet );
+
                     if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
         
                     // send removal notice
