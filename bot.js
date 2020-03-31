@@ -123,21 +123,33 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
         addTrial = true;
     }
 
-    if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.verifiedRole ) ) || addTrial === true ) {
+    if( ( newMember.roles.has( config.trialRole ) && ! oldMember.roles.has( config.trialRole ) ) || addTrial === true ) {
         // add free trial role if database says its not already there
         let trialEligible = await GetFreeTrial( config.sqlConnection, newMember.id );
 
         if ( trialEligible === true ) {
-            // remove trial
-            newMember.addRole( config.trialRole ).catch(console.error);
-            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
-            if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
 
-            // send removal notice
-            bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
+            let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
+
+            if( freeTrialSet ) { 
+                // Add the role!
+                newMember.addRole( config.trialRole ).catch(console.error);
+
+                // send removal notice
+                bot.channels.get( config.welcomeChannel ).send( "A free trial has been added to your account." );
+            } else {
+                // Add the role!
+                if( newMember.roles.has(config.trialRole) ) {
+                    newMember.removeRole(config.trialRole).catch(console.error);
+                }
+
+                bot.channels.get( config.welcomeChannel ).send( "Looks like you already had a free trial and cannot add another." ); 
+            }
         } else {
             // remove trial
-            newMember.removeRole( config.trialRole ).catch(console.error);
+            if( newMember.roles.has(trialRole) ) {
+                newMember.removeRole( config.trialRole ).catch(console.error);
+            }
 
             // send removal notice
             bot.channels.get( config.welcomeChannel ).send( "Looks like you already had a trial. This command cannot be used to add another one." );
@@ -172,7 +184,7 @@ async function RemoveFreeTrials( config ) {
         for ( const member of trialMembers ) {
             //let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
 
-            if ( trialEligible === false ) {
+            if ( false === trialEligible ) {
                 // remove trial
                 member.removeRole(config.trialRole).catch(console.error);
 
@@ -294,19 +306,24 @@ bot.on("message", async (message) => {
                 if ( true == trialEligible ) {
                     let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
 
-                    console.log( freeTrialSet );
-
                     if( freeTrialSet ) { 
                         // Add the role!
                         message.member.addRole(trialRole).catch(console.error);
                         // send removal notice
                         return message.reply( "A free trial has been added to your account." );
                     } else {
+                        // Add the role!
+                        if( message.member.roles.has(trialRole) ) {
+                            message.member.removeRole(trialRole).catch(console.error);
+                        }
                         return message.reply( "Looks like you already had a free trial and cannot add another." ); 
                     }
         
                 } else {        
                     // send removal notice
+                    if( message.member.roles.has(trialRole) ) {
+                        message.member.removeRole(trialRole).catch(console.error);
+                    }
                     return message.reply( "Looks like you already had a trial. This command cannot be used to add another one." );
                 }
             }
