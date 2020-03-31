@@ -39,8 +39,6 @@ async function GetFreeTrial(database, discord_id) {
                     return resolve(false);
                 }
 
-                console.log( results.length );
-
                 if ( 0 === results.length ) {
                     return resolve(true);
                 } else {
@@ -129,7 +127,7 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
 
         if ( trialEligible === true ) {
 
-            let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
+            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.member.id );
 
             if( freeTrialSet ) { 
                 // Add the role!
