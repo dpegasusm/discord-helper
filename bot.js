@@ -307,16 +307,19 @@ bot.on("message", async (message) => {
                 let trialEligible = await GetFreeTrial( config.sqlConnection, message.member.id );
         
                 if ( true == trialEligible ) {
-                    // Add the role!
-                    message.member.addRole(trialRole).catch(console.error);
                     let freeTrialSet = await SetFreeTrial( config.sqlConnection, message.member.id );
 
                     console.log( freeTrialSet );
 
-                    if( !freeTrialSet ) { return message.reply( "Something went wront." ); }
+                    if( freeTrialSet ) { 
+                        // Add the role!
+                        message.member.addRole(trialRole).catch(console.error);
+                        // send removal notice
+                        return message.reply( "A free trial has been added to your account." );
+                    } else {
+                        return message.reply( "Something went wront." ); 
+                    }
         
-                    // send removal notice
-                    return message.reply( "A free trial has been added to your account." );
                 } else {        
                     // send removal notice
                     return message.reply( "Looks like you already had a trial. This command cannot be used to add another one." );
