@@ -80,7 +80,7 @@ async function SetFreeTrial(database, discord_id)
                 return resolve(false);
             }
     
-            let sqlQuery = "INSERT INTO "+database+".free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
+            let sqlQuery = "INSERT INTO "+database.database+".free_trial (discord_id,start_date,end_date) VALUES ('"+discord_id+"',NOW(), NOW() + INTERVAL "+config.trialDays+" DAY );";
 
 			connection.query(sqlQuery, async function(error, results) {
 				if(error) { throw error; }
