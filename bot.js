@@ -127,7 +127,7 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
 
         if ( trialEligible === true ) {
 
-            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.member.id );
+            let freeTrialSet = await SetFreeTrial( config.sqlConnection, newMember.id );
 
             if( freeTrialSet ) { 
                 // Add the role!
