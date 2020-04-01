@@ -180,14 +180,14 @@ async function RemoveFreeTrials( config ) {
         });
 
         for ( const member of trialMembers ) {
-            //let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
+            let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
 
             if ( false === trialEligible ) {
                 // remove trial
                 member.removeRole(config.trialRole).catch(console.error);
 
                 // send removal notice
-                bot.channels.get( config.welcomeChannel ).send( newMember + "Unfortunately it looks as tho your trial perios is over. You can subscribe in the " + upgradeChannel + " if you wish to continue." );
+                bot.channels.get( config.upgradeChannel ).send( newMember + `, your trial period is now over. You can subscribe by typing "upgrade" here if you wish to continue.` );
             }
         }
 
