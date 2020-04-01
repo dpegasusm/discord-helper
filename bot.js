@@ -167,7 +167,7 @@ bot.on( 'guildMemberUpdate', async ( oldMember, newMember ) => {
 
 // Remove the free trials from members whose time has expired.
 async function RemoveFreeTrials( config ) {
-	return await new Promise( function( resolve ) {
+	return await new Promise( async function( resolve ) {
 
         let trialMembers = bot.guilds.get( config.guild ).members.filter(member => { 
             if ( member.roles.has( config.trialRole ) ) {
