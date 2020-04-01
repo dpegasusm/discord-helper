@@ -180,7 +180,7 @@ async function RemoveFreeTrials( config ) {
         });
 
         for ( const member of trialMembers ) {
-            let trialEligible = await GetFreeTrial( config.sqlConnection, member.id );
+            let trialEligible = GetFreeTrial( config.sqlConnection, member.id );
 
             if ( false === trialEligible ) {
                 // remove trial
