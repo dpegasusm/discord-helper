@@ -57,7 +57,7 @@ async function outputDailyReminders( config ) {
 	return await new Promise( function( resolve ) {
 
         let unverifiedMembers = bot.guilds.get( config.guild ).members.filter(member => { 
-            if ( member.roles.has( config.verifiedRole ) ) {
+            if ( member.roles.has( config.verifiedRole ) || member.roles.has( config.botRole ) ) {
                 return false;
             } else {
                 return true;

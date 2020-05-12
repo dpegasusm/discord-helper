@@ -17,6 +17,7 @@
     "collectorRole":"",
     "aceRole":"",
     "trialRole":"",
+    "botRole":"",
     "trialRemoveTime":"",
     "trialDays":"",
     "sqlConnection": {
